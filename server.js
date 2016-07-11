@@ -2,6 +2,7 @@
 
 //require express in our app
 var express = require('express');
+var db = require('./models');
 // generate a new express app and call it 'app'
 var app = express();
 
@@ -13,36 +14,6 @@ app.use(express.static(__dirname + '/public'));
  ************/
 
 /* hard-coded data */
-var albums = [];
-albums.push({
-              _id: 132,
-              artistName: 'the Old Kanye',
-              name: 'The College Dropout',
-              releaseDate: '2004, February 10',
-              genres: [ 'rap', 'hip hop' ]
-            });
-albums.push({
-              _id: 133,
-              artistName: 'the New Kanye',
-              name: 'The Life of Pablo',
-              releaseDate: '2016, Febraury 14',
-              genres: [ 'hip hop' ]
-            });
-albums.push({
-              _id: 134,
-              artistName: 'the always rude Kanye',
-              name: 'My Beautiful Dark Twisted Fantasy',
-              releaseDate: '2010, November 22',
-              genres: [ 'rap', 'hip hop' ]
-            });
-albums.push({
-              _id: 135,
-              artistName: 'the sweet Kanye',
-              name: '808s & Heartbreak',
-              releaseDate: '2008, November 24',
-              genres: [ 'r&b', 'electropop', 'synthpop' ]
-            });
-
 
 
 /**********
@@ -74,8 +45,10 @@ app.get('/api', function api_index (req, res){
 });
 
 app.get('/api/albums', function album_index(req, res){
-
+  db.Album.find({}, function(err, albums) {
+  res.json(albums);
 })
+})  
 
 /**********
  * SERVER *
