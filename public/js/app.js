@@ -42,10 +42,19 @@ $(document).ready(function() {
   console.log('app.js loaded!');
   // renderAlbum(sampleAlbums[0]);
   // sampleAlbums.forEach(renderAlbum);{
-    $.get("/api/albums", function(data) {
-    data.forEach(renderAlbum);
+    $.get("/api/albums", function(response) {
+    response.forEach(renderAlbum);
 });
-  
+$( "form" ).submit( function() {
+ var formdata = $(this).serialize();
+ console.log(formdata);
+ $.post( "/api/albums", formdata, function( response ) {
+  renderAlbum(response);
+  console.log(response);
+});
+  $(this).trigger("reset");
+  event.preventDefault();
+});
 });
 
 
