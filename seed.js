@@ -34,8 +34,32 @@ var albumsList =[
               genres: [ 'r&b', 'electropop', 'synthpop' ]
             }
 
-// put data here!
 ];
+
+var sampleSongs = [
+
+			{ name: 'Famous',
+             trackNumber: 1
+			},
+			{ name: "All of the Lights",
+             trackNumber: 2
+			},
+			{ name: 'Guilt Trip',
+                   trackNumber: 3
+			},
+			{ name: 'Paranoid',
+                   trackNumber: 4
+			},
+			{ name: 'Ultralight Beam',
+                   trackNumber: 5
+			},
+			{ name: 'Runaway',
+                   trackNumber: 6
+			},
+			{ name: 'Stronger',
+                   trackNumber: 7
+			}
+			];
 
 db.Album.remove({}, function(err, albums){
 
@@ -46,4 +70,11 @@ db.Album.remove({}, function(err, albums){
     process.exit();
   });
 
+});
+
+	albumsList.forEach(function (currentValue, index) {
+   	albumsList[index].songs = [];
+   	sampleSongs.forEach(function (currentValueSongs, indexSongs) {
+    albumsList[index].songs.push(sampleSongs[indexSongs]);
+   });
 });
