@@ -60,6 +60,13 @@ $('#albums').on('click', '.add-song', function(e) {
     $('#songModal').data('album-id', id);
     $('#songModal').modal();
 });
+
+$('#saveSong').on('click', handleNewSongSubmit);
+
+
+$('#albums').on('click', '.delete-album', handleDeleteAlbumClick);
+
+
 });
 
 // I HAD TO LOOK AT THIS SOLUTUION. 
@@ -96,6 +103,20 @@ function handleNewSongSubmit() {
     });
 }
 
+function handleDeleteAlbumClick() {
+  var albumId = $(this).parents('.album').data('album-id');
+  console.log('delete album id=' + albumId );
+  $.ajax({
+    method: 'DELETE',
+    url: ('/api/albums/' + albumId),
+    success: function() {
+      console.log("delete ajax call working");
+      $('[data-album-id='+ albumId + ']').remove();
+    }
+  });
+}
+
+
 function buildSongsHtml(songs) {
   var songText = "  &ndash; ";
   songs.forEach(function(song) {
@@ -110,11 +131,13 @@ function buildSongsHtml(songs) {
 }
 
 
+
+
 // this function takes a single album and renders it to the page
 function renderAlbum(album) {
   console.log('rendering album:', album);
 
-  var albumHtml =
+ var albumHtml =
   "        <!-- one album -->" +
   "        <div class='row album' data-album-id='" + album._id + "'>" +
   "          <div class='col-md-10 col-md-offset-1'>" +
@@ -147,15 +170,12 @@ function renderAlbum(album) {
   "              </div>" + // end of panel-body
   "              <div class='panel-footer'>" +       
   "               <button class='btn btn-primary add-song'>Add Song</button>" +
+ "                <button class='btn btn-primary delete-album'>Delete Album</button>" +
 "                 </div>" +
   "            </div>" +
   "          </div>" +
   "          <!-- end one album -->";
 
   // render to the page with jQuery
-$("#albums").append(albumHtml);
+ $( "#albums" ).append(albumHtml);
 }
-
-
-
-

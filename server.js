@@ -61,18 +61,19 @@ app.get('/api/albums/:id', function albumShow(req, res) {
 
 
 app.post('/api/albums', function create(req, res){
-  console.log("Yippee!")
   var newAlbum = req.body;
-  var genres = newAlbum.genres.split(',');
+  var genres = newAlbum.genres.split(",");
   newAlbum.genres = genres;
-  
-db.Album.create(newAlbum, function(err, album){
-      if (err) {
-        res.send("Error"+ err);
-      }
+
+  db.Album.create(newAlbum, function (err, album){
+    if(err){
+      res.send("error is " + err);
+    }
     res.json(album);
-    });
   });
+});
+
+
 
 app.post('/api/albums/:albumId/songs', function songsCreate(req, res) {
   console.log('body', req.body);
@@ -89,6 +90,18 @@ app.post('/api/albums/:albumId/songs', function songsCreate(req, res) {
   });
 
 });
+
+
+app.delete('/api/albums/:id', function deleteAlbum(req, res) {
+  console.log('delete id: ', req.params.id);
+  db.Album.remove({_id: req.params.id}, function(err) {
+    if (err) { return console.log(err); }
+    console.log("removal of id=" + req.params.id  + " successful.");
+    res.status(200).send(); 
+  });
+});
+
+
 
 /**********
  * SERVER *
